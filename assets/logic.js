@@ -34,12 +34,9 @@ $('body').on('click', '.show-buttons', function(event){
      $('.giphy-div').empty();
      searchShows = $(this).attr('data-show');
      queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchShows + "&api_key=dc6zaTOxFJmzC&limit=10";
-     console.log(queryURL);
      $.ajax({url: queryURL, method: 'GET'})
           .done(function(response) {
-               console.log(response.data);
                for (var i = 0; i < response.data.length; i++) {
-                    console.log(response.data[i]);
                     $('.giphy-div').append("<div class='outer-container'><p class='title'>Rating: "+ response.data[i].rating.toUpperCase() +"</p><div class='image-container'><img class='images-returned img-responsive center-block'" + "data-still='" + response.data[i].images.downsized_still.url + "'" + "data-animate='" + response.data[i].images.downsized.url + "'" + "data-state='still'" + "src='" + response.data[i].images.downsized_still.url + "'></div></div>");
                     giphyArray.push(response.data[i].images.downsized.url);
                }
