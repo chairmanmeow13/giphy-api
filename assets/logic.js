@@ -5,30 +5,60 @@ var tvShows = [
 	"Stranger Things",
 	"Game of Thrones"
 ]
+var buttonsHTML = '';
+var newShowValue;
+var giphyKey = "dc6zaTOxFJmzC";
+var searchShows;
+var giphyHolder;
+var giphyArray = [];
 
-$("button").on("click", function() {
-	var tvShows = $(this).attr("data-show");
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
-        tvShows + "&api_key=dc6zaTOxFJmzC&limit=10";
+function generateButtons() {
+     for (var i = 0; i < tvShows.length; i++) {
+          buttonsHTML += "<button class='btn btn-lrg btn-primary show-buttons' data-show=" + tvShows[i] + ">" + tvShows[i] + "</button>";
+     }
+     $('#tvshow-buttons-container').html(buttonsHTML);
+}
 
-        $.ajax({
-        	url: queryURL,
-        	method: "GET"
-        })
-        .done(function(response) {
-        	var results= response.data;
+$(document).ready(function() {
 
-        	for (var i = 0; i < results.length; i++) {
-        		var gifDiv = $("<div class='item'>");
+generateButtons();
 
-        		var rating = results[i].rating;
-        		var p = $("<p>").text("Rating: " + rating);
-        		var showImage = $("<img>");
-        			showImage.attr("src", results[i].images.fixed_height.url);
-        			gifDiv.prepend(p);
-        			gifDiv.prepend(showImage);
-
-        			$("#gifs-appear-here").prepend(gifDiv);
-        	}
-        });
+$('body').on('click', '#add-show', function(event){
+     event.preventDefault();
+     newShowValue = $('#show-input').val();
+     newButton = "<button class='btn btn-lrg btn-primary show-buttons' data-show=" + newShowValue + ">" + newShowValue + "</button>";
+     $('#tvshow-buttons-container').append(newButton);
 });
+
+$('body').on('click', '.show-buttons', function(event){
+     $('.giphy-div').empty();
+     searchShows = $(this).attr('data-show');
+     queryURL = "https://api.giphy.com/v1/gifs/search?q=" + searchShows + "&api_key=dc6zaTOxFJmzC&limit=10";
+     console.log(queryURL);
+     $.ajax({url: queryURL, method: 'GET'})
+          .done(function(response) {
+               console.log(response.data);
+               for (var i = 0; i < response.data.length; i++) {
+                    console.log(response.data[i]);
+                    $('.giphy-div').append("<div class='outer-container'><p class='title'>Rating: "+ response.data[i].rating.toUpperCase() +"</p><div class='image-container'><img class='images-returned img-responsive center-block'" + "data-still='" + response.data[i].images.downsized_still.url + "'" + "data-animate='" + response.data[i].images.downsized.url + "'" + "data-state='still'" + "src='" + response.data[i].images.downsized_still.url + "'></div></div>");
+                    giphyArray.push(response.data[i].images.downsized.url);
+               }
+          });
+
+}); // Closes show-buttons onclick event
+
+$('body').on('click', '.images-returned', function(event){
+     var state = $(this).attr('data-state');
+     var thisImgDataStill = $(this).attr('data-still');
+     var thisImgDataAnimate = $(this).attr('data-animate');
+     if (state === 'still') {
+          $(this).attr('src', thisImgDataAnimate);
+          $(this).attr('data-state', 'animate');
+     }
+     if (state !== "still") {
+          $(this).attr('src', thisImgDataStill);
+          $(this).attr('data-state', 'still');
+     }
+});  // Closes shows images onclick event
+
+}); // Closes jQuery .ready function

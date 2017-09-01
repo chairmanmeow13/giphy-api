@@ -3,34 +3,46 @@
 <head>
 	<title>Get the Gif</title>
 	<style type="text/css" src="assets/style.css"></style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
 </head>
 <body>
-	<div id="buttons">
-		<button data-show="Bob's Burgers">
-			Bob's Burgers
-		</button>
+      <div class="container">
+        <div class="row">
+          <h1 class="text-center">TV Show Gif Generator</h1>
+        </div>
+      </div>
 
-		<button data-show="The Office">
-			The Office
-		</button>
+<br><br>
+    <div class="container">
+          <div class="row">
+              <div class="col-sm-12 col-md-10 col-md-offset-1" id="tvshow-buttons-container">
+              </div>
+         </div>
+    </div>
 
-		<button data-show="Parks and Rec">
-			Parks and Rec
-		</button>
+<br><br>
+    <div class="container">
+          <div class="row">
+               <div class="col-sm-12 col-md-8 col-md-offset-2 searchContainer text-center">
+                    <form id="tvshow-form">
+                         <label for="text-input">Add TV Show</label>
+                         <input type="text" id="show-input">
+                         <input id="add-show" type="submit" value="submit">
+                    </form>
+               </div>
+          </div>
+    </div> 
 
-		<button data-show="Stranger Things">
-			Stranger Things
-		</button>
+<br><br>
+    <div class="container">
+          <div class="row">
+               <div class="giphy-div text-center">
 
-		<button data-show="Game of Thrones">
-			Game of Thrones
-		</button>
-	</div>
+               </div>
+          </div>
+    </div> 
 
-	<div id="gifs-appear-here">
-	</div>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>	
 	<script type="text/javascript" src="assets/logic.js"></script>
 </body>
 </html>
